@@ -5,7 +5,8 @@ const SELECTORS = {
   number: '.number',
   operator: '.operator',
   equals: '.equals',
-  clear: '.clear'
+  clear: '.clear',
+  display: '.display'
 };
 const OPERATORS = {
   add: '+',
@@ -19,6 +20,7 @@ let operator = '';
 let previousInput = '';
 /*------------------------ Cached Element References ------------------------*/
 const calculator = document.querySelector(SELECTORS.calculator);
+const display = document.querySelector(SELECTORS.display);
 /*----------------------------- Event Listeners -----------------------------*/
  // Event delegation: add an event listener to the calculator element
  calculator.addEventListener('click', (event) => {
@@ -43,20 +45,20 @@ const calculator = document.querySelector(SELECTORS.calculator);
 /*-------------------------------- Functions --------------------------------*/
 // button(number) to function(operator) to button(number) = result
 // press a number, press an operator, press a number = result
-  function handleNumber(number) {
-    currentInput += number;
-    console.log('Current Input:', currentInput); 
-  }
+function handleNumber(number) {
+  currentInput += number;
+  updateDisplay(currentInput);
+}
   function handleOperator(op) {
-    if (currentInput === '') return; 
+    if (currentInput === '') return;
     if (previousInput !== '') {
-      calculateResult(); 
+      calculateResult();
     }
     operator = op;
     previousInput = currentInput;
     currentInput = '';
-    console.log('Operator:', operator); 
   }
+
   function calculateResult() {
     if (previousInput === '' || currentInput === '' || operator === '') return;
     let result;
@@ -81,16 +83,16 @@ const calculator = document.querySelector(SELECTORS.calculator);
     currentInput = result.toString();
     operator = '';
     previousInput = '';
-    console.log('Result:', result); 
+    updateDisplay(result);
   }
   function clearCalculator() {
     currentInput = '';
     operator = '';
     previousInput = '';
-    console.log('Calculator cleared'); 
+    updateDisplay('0');
   }
-
-
-
+  function updateDisplay(value) {
+    display.textContent = value;
+  }
 
 
